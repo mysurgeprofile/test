@@ -6,78 +6,29 @@
   <title>脸书卖家</title>
   <link rel="stylesheet" href="style.css" />
 
-  <!-- 网站图标 (多格式兼容) -->
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="assets/favicon.png" type="image/png">
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <!-- 通用 favicon -->
+  <link rel="icon" href="assets/favicon-192.png" type="image/png">
 
-  <!-- iOS 桌面图标 (Apple Touch Icon) -->
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <!-- iOS Safari 桌面图标 -->
+  <link rel="apple-touch-icon" href="assets/favicon-180.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="assets/favicon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="assets/favicon-512.png">
 
-  <!-- Android / PWA 图标 -->
-  <link rel="manifest" href="assets/site.webmanifest">
-  <meta name="theme-color" content="#ffffff">
+  <!-- PWA manifest.json -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Safari 顶部栏颜色 (iOS PWA 样式优化) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#ffffff" />
 </head>
 <body>
   <header class="site-header">
-    <div class="header-inner">
-      <img src="assets/avatar.png" alt="我的头像" class="avatar" />
-      <div class="brand">脸书卖家</div>
-    </div>
+    <h1>脸书卖家</h1>
   </header>
-
-  <main class="container">
-    <!-- 官方链接 -->
-    <section class="card">
-      <h2>官方链接</h2>
-      <div class="grid">
-        <a class="tile" href="https://fh10.zmfaka.cn/shop/24XZCD9E" rel="noopener">
-          <img class="icon" src="assets/shop.svg" alt="卡网">
-          <span>官方卡网</span>
-        </a>
-
-        <a class="tile" href="https://t.me/Facebookkf_bot" rel="noopener">
-          <img class="icon" src="assets/support.svg" alt="客服">
-          <span>官方客服</span>
-        </a>
-
-        <a class="tile" href="https://t.me/fb180" rel="noopener">
-          <img class="icon" src="assets/group.svg" alt="群组">
-          <span>官方群组</span>
-        </a>
-
-        <a class="tile" href="https://www.facebook.com/" rel="noopener">
-          <img class="icon" src="assets/facebook.svg" alt="Facebook">
-          <span>脸书官网</span>
-        </a>
-      </div>
-    </section>
-
-    <!-- 效率工具 -->
-    <section class="card">
-      <h2>效率工具</h2>
-      <div class="grid">
-        <a class="tile" href="https://linshiyou.com/" rel="noopener">
-          <img class="icon" src="assets/calendar.svg" alt="Calendar">
-          <span>临时邮箱</span>
-        </a>
-
-        <a class="tile" href="https://www.bing.com/" rel="noopener">
-          <img class="icon" src="assets/drive.svg" alt="Google 云端硬盘">
-          <span>Bing 搜索</span>
-        </a>
-      </div>
-    </section>
-
-    <!-- 关于我 -->
-    <section class="card">
-      <h2>关于我</h2>
-      <p>我是一名专业的脸书白号服务商，专注于为客户提供各类账号和售后产品服务。</p>
-    </section>
+  <main>
+    <p>欢迎来到我的网站！</p>
   </main>
-
-  <footer class="site-footer">
-    <p>© 2018-2025 脸书卖家</p>
-  </footer>
 </body>
 </html>
