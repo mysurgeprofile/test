@@ -1,281 +1,331 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>个人引导站 • 极简未来感</title>
-  <meta name="description" content="极简未来感个人引导站 — 名片 + 导航" />
-  <style>
-    :root{
-      --bg-1: #f7f8fa;
-      --bg-2: #eef1f6;
-      --card-bg: #ffffff;
-      --muted: #6b7280;
-      --text: #0f172a;
-      --accent: #0366d6; /* GitHub-like blue */
-      --radius: 14px;
-      --shadow: 0 6px 24px rgba(12,18,31,0.08);
-      --glass: rgba(255,255,255,0.6);
-    }
-    [data-theme="dark"]{
-      --bg-1: #0b1220;
-      --bg-2: #071021;
-      --card-bg: rgba(8,12,18,0.8);
-      --muted: #94a3b8;
-      --text: #e6eef8;
-      --accent: #2791ff;
-      --shadow: 0 8px 30px rgba(2,6,12,0.6);
-      --glass: rgba(255,255,255,0.03);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Landing Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* Reset & base */
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      background:
-        linear-gradient(120deg, var(--bg-1) 0%, var(--bg-2) 100%);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:40px;
-      color:var(--text);
-      transition:background 320ms ease, color 320ms ease;
-    }
+        :root {
+            --bg-gradient-start: #f8fafc;
+            --bg-gradient-end: #e2e8f0;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --primary-blue: #0969da;
+            --primary-blue-hover: #0860ca;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-    /* Subtle segmented blocks in background */
-    .bg-block {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -1;
-    }
-    .bg-block::before,
-    .bg-block::after{
-      content: "";
-      position: absolute;
-      width: 46vw;
-      height: 46vh;
-      border-radius: 18px;
-      filter: blur(34px);
-      opacity: .18;
-    }
-    .bg-block::before{
-      left: 6vw;
-      top: 10vh;
-      background: linear-gradient(135deg, rgba(3,102,214,0.10), rgba(3,102,214,0.02));
-      transform: rotate(-6deg);
-    }
-    .bg-block::after{
-      right: 6vw;
-      bottom: 8vh;
-      background: linear-gradient(135deg, rgba(34,197,94,0.08), rgba(34,197,94,0.01));
-      transform: rotate(10deg);
-    }
+        [data-theme="dark"] {
+            --bg-gradient-start: #0f172a;
+            --bg-gradient-end: #1e293b;
+            --card-bg: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+        }
 
-    /* Card */
-    .card {
-      width: 880px;
-      max-width: calc(100% - 48px);
-      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.8));
-      backdrop-filter: blur(6px);
-      border-radius: calc(var(--radius) + 6px);
-      box-shadow: var(--shadow);
-      display:flex;
-      gap:28px;
-      align-items:center;
-      padding:28px;
-      transition: background 320ms ease, box-shadow 320ms ease, transform 240ms ease;
-    }
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
 
-    /* Left - avatar + key info */
-    .card .left {
-      display:flex;
-      gap:20px;
-      align-items:center;
-      min-width: 280px;
-      flex: 0 0 320px;
-    }
-    .avatar {
-      width:96px;
-      height:96px;
-      border-radius: 16px;
-      object-fit:cover;
-      flex-shrink:0;
-      box-shadow: 0 6px 18px rgba(16,24,40,0.08);
-      border: 1px solid rgba(15,23,42,0.04);
-    }
-    .info {
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-    }
-    .name {
-      font-weight: 700;
-      font-size:1.4rem;
-      line-height:1;
-    }
-    .role {
-      color:var(--muted);
-      font-size:0.95rem;
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            transition: var(--transition);
+        }
 
-    /* Right - description + actions */
-    .card .right {
-      flex:1;
-      display:flex;
-      gap:18px;
-      align-items:center;
-      justify-content:space-between;
-      min-width:0;
-    }
-    .desc {
-      color:var(--muted);
-      font-size:1rem;
-      line-height:1.5;
-      margin-right: 12px;
-      min-width:0;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      display:-webkit-box;
-      -webkit-line-clamp:3;
-      -webkit-box-orient:vertical;
-    }
+        .container {
+            width: 100%;
+            max-width: 400px;
+        }
 
-    .actions {
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
+        .card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
 
-    /* Buttons */
-    .btn {
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:10px 14px;
-      border-radius:10px;
-      text-decoration:none;
-      font-weight:600;
-      font-size:0.95rem;
-      cursor:pointer;
-      border: none;
-      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
-      user-select:none;
-    }
-    .btn:active{transform:translateY(1px)}
-    .btn-primary{
-      background:var(--accent);
-      color:#fff;
-      box-shadow: 0 6px 18px rgba(3,102,214,0.18);
-    }
-    .btn-outline{
-      background:transparent;
-      color:var(--text);
-      border:1px solid rgba(15,23,42,0.06);
-      padding:9px 12px;
-    }
-    .icon {
-      width:18px;height:18px;display:inline-block;flex-shrink:0;
-      opacity:0.95;
-    }
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
 
-    /* Small utilities */
-    .meta {
-      display:flex;
-      gap:10px;
-      align-items:center;
-    }
-    .theme-toggle{
-      background:transparent;
-      border:1px solid rgba(15,23,42,0.06);
-      padding:8px 10px;border-radius:10px;
-      display:inline-flex; gap:8px; align-items:center; cursor:pointer;
-    }
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            font-weight: 600;
+            border: 4px solid var(--card-bg);
+            box-shadow: var(--shadow);
+        }
 
-    /* Responsive */
-    @media (max-width:900px){
-      .card{flex-direction:column;align-items:flex-start;padding:20px}
-      .card .left{flex-direction:row; width:100%}
-      .card .right{width:100%;flex-direction:column;align-items:flex-start;gap:12px}
-      .actions{width:100%;justify-content:flex-start;flex-wrap:wrap}
-    }
-    @media (max-width:420px){
-      .avatar{width:78px;height:78px;border-radius:12px}
-      .name{font-size:1.15rem}
-      .desc{font-size:0.95rem}
-    }
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
 
-    /* Accessibility: respect reduced motion */
-    @media (prefers-reduced-motion: reduce){
-      *{transition:none!important}
-    }
-  </style>
+        .name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        .bio {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: white;
+            padding: 0.875rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-blue-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 0.875rem 2rem;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--text-primary);
+            transform: translateY(-1px);
+            background: var(--text-primary);
+            color: var(--card-bg);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            z-index: 100;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .theme-icon {
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: transparent;
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            font-size: 1.25rem;
+        }
+
+        .social-link:hover {
+            border-color: var(--text-primary);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 2rem 1.5rem;
+                border-radius: 20px;
+            }
+
+            .avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+
+            .name {
+                font-size: 1.75rem;
+            }
+
+            .bio {
+                font-size: 1rem;
+            }
+
+            .theme-toggle {
+                top: 1rem;
+                right: 1rem;
+                width: 48px;
+                height: 48px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .actions {
+                flex-direction: row;
+            }
+
+            .btn-primary,
+            .btn-outline {
+                flex: 1;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="bg-block" aria-hidden="true"></div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span class="theme-icon" id="themeIcon">🌙</span>
+    </button>
 
-  <main class="card" role="region" aria-label="个人引导站卡片">
-    <div class="left" aria-hidden="false">
-      <img class="avatar" src="https://via.placeholder.com/300x300.png?text=Avatar" alt="头像">
-      <div class="info">
-        <div class="name" id="owner-name">你的名字</div>
-        <div class="role">产品设计师 • 视觉工程</div>
-        <div class="meta" style="margin-top:6px;">
-          <a class="btn btn-outline" href="mailto:you@example.com" style="padding:8px 10px">联系</a>
-          <button class="theme-toggle" id="themeBtn" aria-pressed="false" title="切换亮/暗主题">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            主题
-          </button>
+    <div class="container">
+        <div class="card">
+            <div class="avatar">
+                <!-- Replace with your avatar image: <img src="avatar.jpg" alt="Avatar"> -->
+                JD
+            </div>
+            
+            <h1 class="name">John Doe</h1>
+            <p class="bio">Building the future, one line of code at a time.</p>
+            
+            <div class="actions">
+                <a href="https://github.com/johndoe" class="btn-primary">
+                    <span>GitHub</span>
+                </a>
+                <a href="mailto:john@example.com" class="btn-outline">
+                    <span>Contact</span>
+                </a>
+            </div>
+
+            <div class="social-links">
+                <a href="https://twitter.com/johndoe" class="social-link" aria-label="Twitter">
+                    <span>𝕏</span>
+                </a>
+                <a href="https://linkedin.com/in/johndoe" class="social-link" aria-label="LinkedIn">
+                    <span>in</span>
+                </a>
+                <a href="https://johndoe.dev" class="social-link" aria-label="Website">
+                    <span>🌐</span>
+                </a>
+            </div>
         </div>
-      </div>
     </div>
 
-    <div class="right">
-      <p class="desc">一段简洁有力的个人介绍 — 说明你擅长什么、你希望访客做什么（如查看作品、查看源码、联系合作）。尽量 1-2 行抓住重点，便于快速决策。</p>
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const htmlElement = document.documentElement;
 
-      <div class="actions" role="list">
-        <a class="btn btn-primary" href="https://github.com/" target="_blank" rel="noopener noreferrer" role="listitem" aria-label="GitHub">
-          <!-- GitHub icon (simple) -->
-          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.07 3.29 9.36 7.86 10.87.57.1.78-.25.78-.55 0-.27-.01-1-.02-1.96-3.2.7-3.88-1.42-3.88-1.42-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.18 1.75 1.18 1.02 1.74 2.68 1.24 3.33.95.1-.74.4-1.24.72-1.53-2.55-.29-5.24-1.28-5.24-5.72 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.73 0C18.2 4.2 19.16 4.5 19.16 4.5c.62 1.59.23 2.76.11 3.05.73.81 1.18 1.84 1.18 3.1 0 4.45-2.7 5.42-5.27 5.71.41.35.77 1.04.77 2.1 0 1.52-.01 2.75-.01 3.12 0 .3.2.66.79.55C20.71 21.36 24 17.07 24 12 24 5.65 18.35.5 12 .5z"/></svg>
-          GitHub
-        </a>
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const defaultTheme = savedTheme || (prefersDark ? 'dark' : 'light');
 
-        <a class="btn btn-outline" href="#" target="_blank" rel="noopener noreferrer" role="listitem">作品</a>
-        <a class="btn btn-outline" href="#" target="_blank" rel="noopener noreferrer" role="listitem">博客</a>
-        <a class="btn btn-outline" href="#" target="_blank" rel="noopener noreferrer" role="listitem">简历</a>
-      </div>
-    </div>
-  </main>
-
-  <script>
-    // Theme toggle (persists in localStorage)
-    (function(){
-      const root = document.documentElement;
-      const btn = document.getElementById('themeBtn');
-      const pref = localStorage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-
-      function apply(theme){
-        if(theme === 'dark'){
-          root.setAttribute('data-theme','dark');
-          btn.setAttribute('aria-pressed','true');
-        } else {
-          root.removeAttribute('data-theme');
-          btn.setAttribute('aria-pressed','false');
+        function setTheme(theme) {
+            htmlElement.setAttribute('data-theme', theme);
+            themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+            localStorage.setItem('theme', theme);
         }
-      }
-      apply(pref);
 
-      btn.addEventListener('click', function(){
-        const isDark = root.getAttribute('data-theme') === 'dark';
-        const next = isDark ? 'light' : 'dark';
-        localStorage.setItem('theme', next);
-        apply(next);
-      });
-    })();
-  </script>
+        setTheme(defaultTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                setTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+    </script>
 </body>
 </html>
