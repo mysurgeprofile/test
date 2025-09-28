@@ -1,413 +1,103 @@
-<!doctype html>
-<html lang="zh-CN">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>你的名字 — 引导页 | ChatGPT 风 · 视觉化</title>
-
-<!-- Google Font（可替换为本地字体） -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-
-<style>
-:root{
-  --bg-0: #06070a;
-  --bg-1: linear-gradient(135deg,#071027 0%, #0c0920 50%, #1b0536 100%);
-  --card: rgba(255,255,255,0.04);
-  --glass: rgba(255,255,255,0.04);
-  --accent-a: #7afcff;
-  --accent-b: #8a6bff;
-  --accent-c: #ff6bcb;
-  --text: #e6eef8;
-  --muted: rgba(230,238,248,0.65);
-  --glass-border: rgba(255,255,255,0.06);
-  --shadow: 0 6px 30px rgba(2,6,23,0.7);
-}
-
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background: var(--bg-1);
-  color:var(--text);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  overflow-y:scroll;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* particle canvas sits under everything */
-#bgCanvas{
-  position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none;
-  mix-blend-mode:screen; opacity:0.55;
-}
-
-/* container */
-.container{
-  position:relative;
-  z-index:2;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:48px 24px;
-}
-
-/* center card */
-.card{
-  width:100%;
-  max-width:920px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border:1px solid var(--glass-border);
-  border-radius:18px;
-  padding:28px;
-  box-shadow:var(--shadow);
-  display:grid;
-  grid-template-columns: 1fr 320px;
-  gap:20px;
-  backdrop-filter: blur(8px) saturate(120%);
-  overflow:hidden;
-}
-
-/* left column: hero */
-.hero{
-  padding:8px 6px;
-  display:flex;
-  flex-direction:column;
-  gap:18px;
-  justify-content:center;
-}
-
-/* person row */
-.row-person{
-  display:flex;
-  gap:16px;
-  align-items:center;
-}
-.avatar{
-  width:78px; height:78px; border-radius:14px;
-  background: linear-gradient(135deg,var(--accent-a), var(--accent-b));
-  display:flex; align-items:center; justify-content:center;
-  font-weight:800; color:#071227;
-  box-shadow: 0 8px 30px rgba(122, 252, 255, 0.08), inset 0 -6px 18px rgba(255,255,255,0.03);
-  border:1px solid rgba(255,255,255,0.08);
-  flex:0 0 78px;
-}
-
-/* title */
-.title{
-  font-size:1.35rem; font-weight:700; letter-spacing: -0.02em;
-}
-.role{
-  color:var(--muted); font-size:0.92rem; margin-top:4px;
-}
-
-/* description */
-.blurb{ color:var(--muted); line-height:1.45; font-size:0.98rem; }
-
-/* command / search */
-.cmd {
-  display:flex; gap:10px; align-items:center; margin-top:6px;
-}
-.input-wrap{
-  flex:1; display:flex; align-items:center; gap:8px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-radius:12px; padding:10px 12px; border:1px solid rgba(255,255,255,0.03);
-}
-.input-wrap input{
-  background:transparent; border:0; outline:0; color:var(--text);
-  font-size:0.98rem; width:100%;
-}
-.kbd{
-  padding:6px 8px; border-radius:8px; font-size:0.82rem; background: rgba(0,0,0,0.25);
-  border:1px solid rgba(255,255,255,0.03);
-  color:var(--muted);
-}
-
-/* quick actions */
-.actions{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
-.btn{
-  display:inline-flex; align-items:center; gap:10px; padding:10px 14px;
-  border-radius:12px; font-weight:600; cursor:pointer; user-select:none;
-  background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border:1px solid rgba(255,255,255,0.04);
-  color:var(--text); text-decoration:none;
-  transition: transform .16s ease, box-shadow .16s ease;
-}
-.btn:hover{ transform:translateY(-6px); box-shadow:0 14px 40px rgba(10,8,20,0.5)}
-
-/* right column: link grid */
-.links{
-  padding:6px;
-  display:flex; flex-direction:column; gap:12px;
-}
-.links h4{ margin:6px 4px 2px 4px; font-size:0.95rem; color:var(--muted); font-weight:600; }
-.link-grid{
-  display:grid; grid-template-columns:1fr 1fr; gap:10px;
-}
-.link{
-  display:flex; gap:12px; align-items:center; padding:10px;
-  border-radius:10px; cursor:pointer; text-decoration:none; color:var(--text);
-  background: linear-gradient(135deg, rgba(138,107,255,0.06), rgba(255,107,203,0.03));
-  border:1px solid rgba(255,255,255,0.02);
-  transition: transform .12s ease, box-shadow .12s ease;
-}
-.link .ico{ width:42px; height:42px; border-radius:10px;
-  display:flex; align-items:center; justify-content:center; font-weight:700; color:#08102a;
-  background: linear-gradient(180deg,var(--accent-a), var(--accent-b)); }
-.link:hover{ transform:translateY(-4px); box-shadow:0 10px 30px rgba(10,8,20,0.45);}
-
-/* footer small */
-.footer{
-  margin-top:14px; color:var(--muted); font-size:0.86rem;
-  display:flex; gap:8px; align-items:center; justify-content:flex-start;
-}
-
-/* small screens */
-@media (max-width:860px){
-  .card{ grid-template-columns: 1fr; padding:18px; gap:14px; }
-  .links{ order:2 }
-}
-
-/* neon accent lines */
-.accent-line{
-  position:absolute; inset:0; pointer-events:none; z-index:1;
-  background: radial-gradient(800px 200px at 15% 10%, rgba(122,252,255,0.06), transparent 6%),
-              radial-gradient(600px 240px at 90% 80%, rgba(138,107,255,0.06), transparent 8%);
-  mix-blend-mode:screen; opacity:0.9;
-}
-
-/* subtle focus */
-.input-wrap:focus-within { box-shadow: 0 6px 30px rgba(122,252,255,0.03); border-color: rgba(122,252,255,0.12) }
-</style>
-</head>
-<body>
-
-<canvas id="bgCanvas"></canvas>
-
-<div class="container">
-  <div class="card" role="region" aria-label="个人引导卡片">
-    <div class="hero">
-      <div class="row-person">
-        <div class="avatar" id="avatar">MD</div>
-        <div>
-          <div class="title" id="name">你的名字（示例：Mark Dugas）</div>
-          <div class="role" id="role">提示词工程师 · 前端视觉设计</div>
-        </div>
-      </div>
-
-      <p class="blurb" id="blurb">我把复杂的问题拆成可执行的提示词与设计。这个页面既是名片，也是入口：快速访问我的项目、社交与作品演示。</p>
-
-      <div class="cmd" aria-hidden="false">
-        <div class="input-wrap" role="search" aria-label="站内搜索或快速命令">
-          <svg style="width:18px;height:18px;opacity:.75" viewBox="0 0 24 24"><path fill="currentColor" d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.6-.56 3.08-1.5 4.24l5.12 5.12-1.41 1.41L13.09 15.16A6.46 6.46 0 0 1 9.5 16 6.5 6.5 0 1 1 9.5 3m0 2A4.5 4.5 0 1 0 14 9.5 4.5 4.5 0 0 0 9.5 5z"/></svg>
-          <input id="cmdInput" placeholder="试试：/projects 或 输入关键词回车（Enter）" aria-label="输入命令或搜索">
-          <div class="kbd">Enter</div>
-        </div>
-      </div>
-
-      <div class="actions" role="toolbar" aria-label="快速行为">
-        <a class="btn" data-action="mailto"><svg style="width:16px;height:16px" viewBox="0 0 24 24"><path fill="currentColor" d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 4l-8 5L4 8V6l8 5 8-5v2z"/></svg> Email</a>
-        <a class="btn" data-action="resume"><svg style="width:16px;height:16px" viewBox="0 0 24 24"><path fill="currentColor" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/></svg> 简历</a>
-        <a class="btn" data-action="projects"><svg style="width:16px;height:16px" viewBox="0 0 24 24"><path fill="currentColor" d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg> 项目</a>
-      </div>
-
-      <div class="footer" aria-hidden="true">
-        <div>按 ↵ 打开首个匹配项 · · ·</div>
-      </div>
-    </div>
-
-    <aside class="links" aria-label="快速链接">
-      <h4>快速访问</h4>
-      <div class="link-grid" id="linkGrid">
-        <a class="link" href="#" data-href="https://github.com/" aria-label="GitHub">
-          <div class="ico">GH</div>
-          <div>
-            <div style="font-weight:700">GitHub</div>
-            <div style="font-size:0.86rem;color:var(--muted)">代码仓库 · 开源项目</div>
-          </div>
-        </a>
-
-        <a class="link" href="#" data-href="https://www.linkedin.com/" aria-label="LinkedIn">
-          <div class="ico">IN</div>
-          <div>
-            <div style="font-weight:700">LinkedIn</div>
-            <div style="font-size:0.86rem;color:var(--muted)">职业经历 · 合作</div>
-          </div>
-        </a>
-
-        <a class="link" href="#" data-href="https://twitter.com/" aria-label="Twitter">
-          <div class="ico">X</div>
-          <div>
-            <div style="font-weight:700">X / Twitter</div>
-            <div style="font-size:0.86rem;color:var(--muted)">灵感与速报</div>
-          </div>
-        </a>
-
-        <a class="link" href="#" data-href="#" aria-label="作品页（示例）">
-          <div class="ico">WS</div>
-          <div>
-            <div style="font-weight:700">作品集</div>
-            <div style="font-size:0.86rem;color:var(--muted)">视觉与提示词样本</div>
-          </div>
-        </a>
-      </div>
-
-      <div style="margin-top:auto;display:flex;gap:8px;align-items:center;justify-content:space-between;">
-        <div style="font-size:0.82rem;color:var(--muted)">更新于 <span id="updatedAt">2025-09-28</span></div>
-        <div style="display:flex;gap:8px">
-          <button id="toggleGlow" class="btn" style="padding:8px 10px;font-weight:600">Glow</button>
-        </div>
-      </div>
-    </aside>
-
-    <div class="accent-line" aria-hidden="true"></div>
-  </div>
-</div>
-
-<script>
-/* -----------------------------
-   Interactive behaviors (light)
-   ----------------------------- */
-
-/* simple "open first match" behavior and quick actions */
-const links = Array.from(document.querySelectorAll('.link'));
-const input = document.getElementById('cmdInput');
-
-function openFirstMatch(q){
-  q = q.trim().toLowerCase();
-  if(!q) return;
-  // naive matching: check data-href or inner text
-  for(let a of links){
-    const title = a.innerText.toLowerCase();
-    const href = (a.dataset.href || '').toLowerCase();
-    if(title.includes(q) || href.includes(q) || q.startsWith('/' + title.split(' ')[0])){
-      window.open(a.dataset.href || '#', '_blank');
-      return;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Notion Style Navigation</title>
+  <style>
+    /* 全局 */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #ffffff;
+      color: #222;
+      margin: 0;
+      padding: 2rem;
+      line-height: 1.6;
     }
-  }
-  // fallback: open GitHub search
-  window.open('https://www.google.com/search?q=' + encodeURIComponent(q), '_blank');
-}
 
-input.addEventListener('keydown', (e)=>{
-  if(e.key === 'Enter'){
-    openFirstMatch(input.value);
-  }
-});
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
 
-/* quick action buttons */
-document.querySelectorAll('[data-action]').forEach(btn=>{
-  btn.addEventListener('click', (e)=>{
-    const a = e.currentTarget.dataset.action;
-    if(a === 'mailto') window.location.href = 'mailto:your@email.example';
-    if(a === 'resume') window.open('https://example.com/resume.pdf','_blank');
-    if(a === 'projects') window.open('https://github.com/','_blank');
-  });
-});
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
 
-/* links open */
-document.querySelectorAll('.link').forEach(a=>{
-  a.addEventListener('click',(e)=>{
-    const href = a.dataset.href || '#';
-    if(href === '#'){ e.preventDefault(); return; }
-    window.open(href,'_blank');
-  });
-});
+    p {
+      margin-top: 0;
+      color: #555;
+    }
 
-/* toggle glow (demo) */
-let glow = true;
-document.getElementById('toggleGlow').addEventListener('click', ()=>{
-  glow = !glow;
-  document.getElementById('bgCanvas').style.opacity = glow ? 0.55 : 0.18;
-  document.getElementById('toggleGlow').innerText = glow ? 'Glow' : 'Calm';
-});
+    /* 链接区块 */
+    .links {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
 
-/* particle background (lightweight) */
-const canvas = document.getElementById('bgCanvas');
-const ctx = canvas.getContext('2d');
-let W = canvas.width = innerWidth;
-let H = canvas.height = innerHeight;
-const particles = [];
-const particleCount = Math.min(80, Math.round((W*H)/90000)); // scale with screen
+    .card {
+      padding: 1rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      background: #fafafa;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s ease;
+    }
 
-function rand(min,max){ return Math.random()*(max-min)+min; }
+    .card:hover {
+      background: #f0f0f0;
+      border-color: #d0d0d0;
+    }
 
-function makeParticles(){
-  particles.length = 0;
-  for(let i=0;i<particleCount;i++){
-    particles.push({
-      x: rand(0,W), y: rand(0,H),
-      r: rand(0.6,2.6),
-      vx: rand(-0.2,0.2), vy: rand(-0.15,0.15),
-      hue: rand(170,320),
-      alpha: rand(0.06,0.22)
-    });
-  }
-}
-makeParticles();
+    .card h3 {
+      margin: 0 0 0.3rem 0;
+      font-size: 1rem;
+    }
 
-function resize(){
-  W = canvas.width = innerWidth; H = canvas.height = innerHeight;
-  makeParticles();
-}
-addEventListener('resize', resize);
+    .card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #666;
+    }
 
-let t = 0;
-function tick(){
-  t += 0.005;
-  ctx.clearRect(0,0,W,H);
-
-  // soft gradient overlay
-  const g = ctx.createLinearGradient(0,0,W,H);
-  g.addColorStop(0, 'rgba(10,12,20,0.25)');
-  g.addColorStop(1, 'rgba(12,6,32,0.35)');
-  ctx.fillStyle = g;
-  ctx.fillRect(0,0,W,H);
-
-  // draw particles
-  for(let p of particles){
-    p.x += p.vx + Math.sin(t + p.x*0.0008) * 0.25;
-    p.y += p.vy + Math.cos(t + p.y*0.0009) * 0.15;
-    if(p.x < -20) p.x = W+20;
-    if(p.x > W+20) p.x = -20;
-    if(p.y < -20) p.y = H+20;
-    if(p.y > H+20) p.y = -20;
-
-    ctx.beginPath();
-    const hue = (p.hue + Math.sin(t+p.x*0.002)*20) | 0;
-    ctx.fillStyle = 'hsla('+hue+',80%,'+ (20 + p.r*5) +'%,'+p.alpha+')';
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fill();
-  }
-
-  // lines between close particles (subtle)
-  for(let i=0;i<particles.length;i++){
-    for(let j=i+1;j<particles.length;j++){
-      const a = particles[i], b=particles[j];
-      const dx = a.x - b.x, dy = a.y - b.y;
-      const d2 = dx*dx + dy*dy;
-      if(d2 < 9000){
-        ctx.beginPath();
-        ctx.moveTo(a.x,a.y);
-        ctx.lineTo(b.x,b.y);
-        ctx.strokeStyle = 'rgba(122,200,255,0.03)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
+    /* 响应式 */
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
       }
     }
-  }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>👋 Hi, I’m Mark</h1>
+    <p>Welcome to my personal navigation page. Quick links to my work and tools:</p>
 
-  requestAnimationFrame(tick);
-}
-tick();
+    <div class="links">
+      <a href="https://github.com" class="card" target="_blank">
+        <h3>GitHub</h3>
+        <p>My code and open-source projects</p>
+      </a>
 
-/* accessibility: fill name from meta if provided (easy to script) */
-document.getElementById('name').innerText = localStorage.getItem('pg_name') || '你的名字';
-document.getElementById('role').innerText = localStorage.getItem('pg_role') || '提示词工程师 · 视觉设计师';
-document.getElementById('blurb').innerText = localStorage.getItem('pg_blurb') || '把复杂问题拆成可执行的提示词与设计。这个页面既是名片，也是你的入口。';
+      <a href="https://www.linkedin.com" class="card" target="_blank">
+        <h3>LinkedIn</h3>
+        <p>Professional profile & connections</p>
+      </a>
 
-</script>
+      <a href="https://twitter.com" class="card" target="_blank">
+        <h3>Twitter</h3>
+        <p>Sharing ideas and updates</p>
+      </a>
 
+      <a href="https://notion.so" class="card" target="_blank">
+        <h3>Notion</h3>
+        <p>Notes, docs & planning</p>
+      </a>
+    </div>
+  </div>
 </body>
 </html>
