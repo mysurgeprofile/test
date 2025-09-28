@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Dugas - Digital Portfolio</title>
+    <style>
+        :root {
+            /* Gradient Colors - Option 1: Orange to Pink */
+            --grad-1: #ff6b6b;
+            --grad-2: #ffa726;
+            
+            /* Alternative Gradient - Option 2: Blue to Purple */
+            --alt-grad-1: #667eea;
+            --alt-grad-2: #764ba2;
+            
+            /* Core Colors */
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --accent: #ff6b6b;
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --white: #ffffff;
+            
+            /* High Contrast Mode (uncomment to enable) */
+            /* --grad-1: #000000; */
+            /* --grad-2: #333333; */
+            /* --card-bg: #ffffff; */
+            /* --accent: #000000; */
+            /* --text-primary: #000000; */
+            
+            /* Design System */
+            --radius: 16px;
+            --radius-small: 8px;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 16px 64px rgba(0, 0, 0, 0.15);
+            --trans-dur: 0.3s;
+            --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            /* Typography */
+            --font-base-size: 16px;
+            --font-large: 2.5rem;
+            --font-medium: 1.25rem;
+            --font-small: 0.875rem;
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 1.5rem;
+            --space-lg: 2rem;
+            --space-xl: 3rem;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-size: var(--font-base-size);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--grad-1), var(--grad-2));
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Subtle background texture */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-lg);
+            gap: var(--space-xl);
+        }
+        
+        /* Main Profile Card */
+        .profile-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: var(--space-xl);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: float-in 1s var(--ease) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        @keyframes float-in {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .avatar {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            margin: 0 auto var(--space-md);
+            background: linear-gradient(135deg, var(--grad-1), var(--grad-2));
+            padding: 4px;
+            box-shadow: var(--shadow);
+        }
+        
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--white);
+        }
+        
+        .name {
+            font-size: var(--font-large);
+            font-weight: 700;
+            margin-bottom: var(--space-xs);
+            background: linear-gradient(135deg, var(--grad-1), var(--grad-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .tagline {
+            font-size: var(--font-medium);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+            font-weight: 300;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--grad-1), var(--grad-2));
+            color: var(--white);
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-small);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all var(--trans-dur) var(--ease);
+            box-shadow: var(--shadow);
+            border: none;
+            font-size: var(--font-medium);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+            filter: brightness(1.1);
+        }
+        
+        /* Card Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-md);
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .info-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-small);
+            padding: var(--space-md);
+            text-align: center;
+            transition: all var(--trans-dur) var(--ease);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: var(--shadow);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            transition: left var(--trans-dur) var(--ease);
+        }
+        
+        .info-card:hover {
+            transform: translateY(-6px) scale(1.04);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .info-card:hover::before {
+            left: 100%;
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: var(--space-xs);
+            background: linear-gradient(135deg, var(--grad-1), var(--grad-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-title {
+            font-weight: 600;
+            margin-bottom: var(--space-xs);
+            font-size: var(--font-medium);
+        }
+        
+        .card-desc {
+            color: var(--text-secondary);
+            font-size: var(--font-small);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: var(--space-xl);
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .signature {
+            font-style: italic;
+            margin-bottom: var(--space-sm);
+            font-size: var(--font-small);
+        }
+        
+        .contact-email {
+            color: var(--white);
+            text-decoration: none;
+            padding: var(--space-xs) var(--space-sm);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius-small);
+            transition: all var(--trans-dur) var(--ease);
+            display: inline-block;
+        }
+        
+        .contact-email:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            :root {
+                --font-large: 2rem;
+                --font-medium: 1.125rem;
+                --space-lg: 1rem;
+                --space-xl: 2rem;
+            }
+            
+            .container {
+                padding: var(--space-sm);
+                gap: var(--space-lg);
+            }
+            
+            .profile-card {
+                padding: var(--space-lg);
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-sm);
+            }
+            
+            .avatar {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .cta-button {
+                padding: var(--space-md) var(--space-xl);
+                width: 100%;
+                font-size: var(--font-medium);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            :root {
+                --font-large: 1.75rem;
+                --font-base-size: 14px;
+            }
+            
+            .container {
+                padding: var(--space-sm);
+            }
+            
+            .profile-card {
+                padding: var(--space-md);
+            }
+            
+            .avatar {
+                width: 100px;
+                height: 100px;
+            }
+        }
+        
+        /* Focus states for accessibility */
+        .cta-button:focus,
+        .info-card:focus,
+        .contact-email:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Profile Card -->
+        <main class="profile-card">
+            <div class="avatar">
+                <img src="https://via.placeholder.com/160" alt="Mark Dugas Profile Picture">
+            </div>
+            <h1 class="name">Mark Dugas</h1>
+            <p class="tagline">Creator │ Explorer │ Architect</p>
+            <a href="#" class="cta-button" role="button">View Portfolio</a>
+        </main>
+        
+        <!-- Information Cards Grid -->
+        <section class="card-grid">
+            <!-- Social Links -->
+            <a href="#" class="info-card" aria-label="GitHub Profile">
+                <div class="card-icon">🐙</div>
+                <h2 class="card-title">GitHub</h2>
+                <p class="card-desc">Code & Projects</p>
+            </a>
+            
+            <a href="#" class="info-card" aria-label="Twitter Profile">
+                <div class="card-icon">🐦</div>
+                <h2 class="card-title">Twitter</h2>
+                <p class="card-desc">Thoughts & Updates</p>
+            </a>
+            
+            <a href="mailto:example@example.com" class="info-card" aria-label="Send Email">
+                <div class="card-icon">✉️</div>
+                <h2 class="card-title">Email</h2>
+                <p class="card-desc">Get in Touch</p>
+            </a>
+            
+            <a href="#" class="info-card" aria-label="LinkedIn Profile">
+                <div class="card-icon">💼</div>
+                <h2 class="card-title">LinkedIn</h2>
+                <p class="card-desc">Professional Network</p>
+            </a>
+            
+            <!-- Project Links -->
+            <a href="#" class="info-card" aria-label="Project Alpha Details">
+                <div class="card-icon">🚀</div>
+                <h2 class="card-title">Project Alpha</h2>
+                <p class="card-desc">Innovation Lab</p>
+            </a>
+            
+            <a href="#" class="info-card" aria-label="Project Beta Details">
+                <div class="card-icon">⚡</div>
+                <h2 class="card-title">Project Beta</h2>
+                <p class="card-desc">Creative Studio</p>
+            </a>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="signature">Crafting clarity with vibrant gradients.</p>
+            <a href="mailto:example@example.com" class="contact-email">example@example.com</a>
+        </footer>
+    </div>
+</body>
+</html>
