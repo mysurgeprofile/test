@@ -1,47 +1,226 @@
-<div id="app">
-  <header class="header">
-    <div class="user-profile">
-      <div class="user-avatar"></div>
-      <h1 class="user-name"></h1>
-    </div>
-    <div class="controls">
-      <input type="text" id="searchInput" placeholder="Search links..." />
-      <button id="themeToggle" aria-label="Toggle theme">
-        <i class="fas fa-moon"></i>
-      </button>
-      <button id="addLink" class="primary-btn">
-        <i class="fas fa-plus"></i> Add Link
-      </button>
-    </div>
-  </header>
+<!DOCTYPE html>
+<html lang="en">
 
-  <main class="content">
-    <div id="categories"></div>
-  </main>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Landing Page</title>
+    <style>
+        :root {
+            --bg: #f8f9fa;
+            --text: #212529;
+            --accent: #007bff;
+            --muted: #6c757d;
+            --gap: 1rem;
+        }
 
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <h2 id="modal-title">Add New Link</h2>
-      <form id="linkForm">
-        <input type="text" id="linkTitle" placeholder="Title" required />
-        <input type="url" id="linkUrl" placeholder="URL" required />
-        <input type="text" id="linkIcon" placeholder="Icon (FontAwesome class)" />
-        <textarea id="linkDescription" placeholder="Description"></textarea>
-        <select id="linkCategory" required>
-          <option value="">Select Category</option>
-          <option value="frequently-used">Frequently Used</option>
-          <option value="work">Work</option>
-          <option value="entertainment">Entertainment</option>
-          <option value="social">Social</option>
-          <option value="tools">Tools</option>
-        </select>
-        <div class="form-actions">
-          <button type="button" id="cancelButton">Cancel</button>
-          <button type="submit" class="primary-btn">Save</button>
+        [data-theme="dark"] {
+            --bg: #212529;
+            --text: #f8f9fa;
+            --accent: #17a2b8;
+            --muted: #868e96;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--gap);
+            border-bottom: 1px solid var(--muted);
+        }
+
+        header svg {
+            width: 40px;
+            height: auto;
+        }
+
+        header nav {
+            display: flex;
+            gap: var(--gap);
+        }
+
+        header button {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+        }
+
+        main {
+            max-width: 800px;
+            margin: auto;
+            padding: var(--gap);
+        }
+
+        section {
+            margin-bottom: 3rem;
+            padding: var(--gap);
+        }
+
+        .hero {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+
+        .hero p {
+            color: var(--muted);
+        }
+
+        .cta-buttons button,
+        .cta-buttons a {
+            display: inline-block;
+            margin: 0.5rem;
+            padding: 0.5rem 1rem;
+            color: #fff;
+            background-color: var(--accent);
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .cta-buttons a {
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--gap);
+        }
+
+        li {
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid var(--muted);
+            padding: var(--gap);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        li:hover,
+        li:focus {
+            background: var(--accent);
+            color: #fff;
+            outline: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: var(--gap);
+            border-top: 1px solid var(--muted);
+            font-size: 0.8rem;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:focus {
+            outline: 3px solid var(--accent);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: var(--bg);
+                color: var(--text);
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const themeToggleButton = document.getElementById('theme-toggle');
+            themeToggleButton.addEventListener('click', function () {
+                document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+            });
+
+            const emailButton = document.getElementById('email-copy');
+            emailButton.addEventListener('click', function () {
+                navigator.clipboard.writeText('EMAIL_ADDRESS').then(() => {
+                    alert('Email copied to clipboard');
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <header>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor">
+                <circle cx="50" cy="50" r="50" />
+            </svg>
         </div>
-      </form>
-    </div>
-  </div>
-</div>
+        <nav>
+            <button aria-label="Toggle theme" id="theme-toggle">Toggle Theme</button>
+        </nav>
+    </header>
+    <main>
+        <section class="hero">
+            <h1>DISPLAY_NAME</h1>
+            <h2 class="subtitle">SHORT_TITLE</h2>
+            <p>BIO_LINE</p>
+            <div class="cta-buttons">
+                <button id="email-copy">Copy Email</button>
+                <a href="mailto:EMAIL_ADDRESS">Email</a>
+                <a href="RESUME_LINK" target="_blank" rel="noopener noreferrer">Resume</a>
+                <a href="#projects">Projects</a>
+            </div>
+        </section>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <section id="links" aria-label="External Links">
+            <ul>
+                <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="24" height="24">
+                        <path d="M8 0a8 8 0 108 8 8 8 0 00-8-8zm4 9.25a.25.25 0 01-.25.25h-3.5v3.5a.25.25 0 01-.5 0v-3.5H4.25a.25.25 0 010-.5h3.5v-3.5a.25.25 0 01.5 0v3.5h3.5a.25.25 0 01.25.25z" />
+                    </svg>
+                    <a href="LINK_1_URL">LINK_1_LABEL</a>
+                </li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="24" height="24">
+                        <path d="M8 0a8 8 0 108 8 8 8 0 00-8-8zm4 9.25a.25.25 0 01-.25.25h-3.5v3.5a.25.25 0 01-.5 0v-3.5H4.25a.25.25 0 010-.5h3.5v-3.5a.25.25 0 01.5 0v3.5h3.5a.25.25 0 01.25.25z" />
+                    </svg>
+                    <a href="LINK_2_URL">LINK_2_LABEL</a>
+                </li>
+                <!-- Add more links as needed -->
+            </ul>
+        </section>
+
+        <section id="projects" aria-label="Projects Preview">
+            <h2>Projects</h2>
+            <ul>
+                <li>
+                    <strong>PROJECT_1_TITLE</strong>
+                    <p>PROJECT_1_DESC</p>
+                    <a href="PROJECT_1_URL" target="_blank" rel="noopener noreferrer">View Project</a>
+                </li>
+                <li>
+                    <strong>PROJECT_2_TITLE</strong>
+                    <p>PROJECT_2_DESC</p>
+                    <a href="PROJECT_2_URL" target="_blank" rel="noopener noreferrer">View Project</a>
+                </li>
+                <!-- Optionally add more project sections -->
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 DISPLAY_NAME. Built with ❤️ and HTML.</p>
+    </footer>
+</body>
+
+</html>
