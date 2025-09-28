@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的导航站</title>
+  <style>
+    /* ====== 全局主题 ====== */
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      --text-color: #f5f7fa;
+      --accent-color: #00e5ff;
+      --hover-color: #4fffe5;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --radius: 18px;
+      --transition: 0.3s ease;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+
+    /* ====== 标题部分 ====== */
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      background: linear-gradient(90deg, #00e5ff, #4fffe5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.subtitle {
+      font-size: 1.1rem;
+      color: #cfd8dc;
+      margin-bottom: 50px;
+    }
+
+    /* ====== 导航按钮 ====== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 30px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-decoration: none;
+      color: var(--text-color);
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: transform var(--transition), border var(--transition), background var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border: 1px solid var(--hover-color);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* ====== 页脚 ====== */
+    footer {
+      margin-top: 60px;
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <h1>我的导航站</h1>
+  <p class="subtitle">Keep it simple · Focus on the future</p>
+
+  <div class="grid">
+    <a class="card" href="https://github.com/" target="_blank">GitHub</a>
+    <a class="card" href="https://chat.openai.com/" target="_blank">ChatGPT</a>
+    <a class="card" href="https://notion.so/" target="_blank">Notion</a>
+    <a class="card" href="https://vercel.com/" target="_blank">Vercel</a>
+    <a class="card" href="https://stackoverflow.com/" target="_blank">Stack Overflow</a>
+    <a class="card" href="https://www.reddit.com/" target="_blank">Reddit</a>
+  </div>
+
+  <footer>
+    © 2025 我的导航站 | Designed with minimalism
+  </footer>
+</body>
+</html>
