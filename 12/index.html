@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>个人导航站 - Telegram风</title>
+  <style>
+    body {
+      font-family: 'Inter', 'Roboto', sans-serif;
+      background: #e5ddd5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .chat-container {
+      width: 100%;
+      max-width: 720px;
+      height: 90vh;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    header {
+      background: #0088cc;
+      color: #fff;
+      padding: 1rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .messages {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      background: #d9eafa;
+    }
+    .bubble {
+      max-width: 70%;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      border-radius: 16px;
+      line-height: 1.5;
+      word-wrap: break-word;
+    }
+    .bubble a {
+      text-decoration: none;
+      color: inherit;
+      font-weight: 500;
+    }
+    .bubble.left {
+      background: #fff;
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+    .bubble.right {
+      background: #0088cc;
+      color: #fff;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+    footer {
+      padding: 0.75rem;
+      background: #f5f5f5;
+      text-align: center;
+      font-size: 0.875rem;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <header>个人导航站</header>
+    <div class="messages">
+      <div class="bubble left"><a href="#">📄 Notion 笔记库</a></div>
+      <div class="bubble right"><a href="#">💻 GitHub</a></div>
+      <div class="bubble left"><a href="#">🌐 个人博客</a></div>
+      <div class="bubble right"><a href="mailto:hello@example.com">✉️ Email</a></div>
+      <div class="bubble left"><a href="#">🐦 Twitter</a></div>
+      <div class="bubble right"><a href="#">📸 Instagram</a></div>
+      <div class="bubble left"><a href="#">💼 LinkedIn</a></div>
+    </div>
+    <footer>© 2025 你的名字</footer>
+  </div>
+</body>
+</html>
