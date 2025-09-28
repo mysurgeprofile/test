@@ -1,0 +1,47 @@
+<div id="app">
+  <header class="header">
+    <div class="user-profile">
+      <div class="user-avatar"></div>
+      <h1 class="user-name"></h1>
+    </div>
+    <div class="controls">
+      <input type="text" id="searchInput" placeholder="Search links..." />
+      <button id="themeToggle" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+      </button>
+      <button id="addLink" class="primary-btn">
+        <i class="fas fa-plus"></i> Add Link
+      </button>
+    </div>
+  </header>
+
+  <main class="content">
+    <div id="categories"></div>
+  </main>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h2 id="modal-title">Add New Link</h2>
+      <form id="linkForm">
+        <input type="text" id="linkTitle" placeholder="Title" required />
+        <input type="url" id="linkUrl" placeholder="URL" required />
+        <input type="text" id="linkIcon" placeholder="Icon (FontAwesome class)" />
+        <textarea id="linkDescription" placeholder="Description"></textarea>
+        <select id="linkCategory" required>
+          <option value="">Select Category</option>
+          <option value="frequently-used">Frequently Used</option>
+          <option value="work">Work</option>
+          <option value="entertainment">Entertainment</option>
+          <option value="social">Social</option>
+          <option value="tools">Tools</option>
+        </select>
+        <div class="form-actions">
+          <button type="button" id="cancelButton">Cancel</button>
+          <button type="submit" class="primary-btn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
