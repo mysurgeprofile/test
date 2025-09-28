@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的导航站</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(circle at top, #0a0a0f, #000);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+    }
+
+    header {
+      margin-top: 60px;
+      text-align: center;
+    }
+
+    header img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid #0ff;
+      box-shadow: 0 0 20px #0ff, 0 0 40px #0ff inset;
+    }
+
+    header h1 {
+      margin: 20px 0 10px;
+      font-size: 2.5rem;
+      color: #0ff;
+      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      color: #aaa;
+    }
+
+    .links {
+      margin-top: 50px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      width: 90%;
+      max-width: 800px;
+    }
+
+    .link-btn {
+      display: block;
+      padding: 15px 20px;
+      text-align: center;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      background: transparent;
+      border: 2px solid;
+      position: relative;
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .link-btn:before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, #0ff, #f0f, #0ff);
+      animation: rotate 3s linear infinite;
+      z-index: 0;
+    }
+
+    .link-btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .link-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #0ff, 0 0 30px #f0f;
+    }
+
+    .link-btn::after {
+      content: "";
+      position: absolute;
+      inset: 2px;
+      background: #000;
+      border-radius: 10px;
+      z-index: 0;
+    }
+
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      font-size: 0.9rem;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://via.placeholder.com/120" alt="avatar">
+    <h1>Mark Dugas</h1>
+    <p>🚀 Cyber Neon 导航站</p>
+  </header>
+
+  <main class="links">
+    <a href="https://github.com" class="link-btn"><span>GitHub</span></a>
+    <a href="https://twitter.com" class="link-btn"><span>Twitter</span></a>
+    <a href="https://t.me" class="link-btn"><span>Telegram</span></a>
+    <a href="mailto:example@gmail.com" class="link-btn"><span>Email</span></a>
+    <a href="https://notion.so" class="link-btn"><span>Notion</span></a>
+    <a href="https://youtube.com" class="link-btn"><span>YouTube</span></a>
+  </main>
+
+  <footer>
+    © 2025 My Cyber Neon Portal
+  </footer>
+</body>
+</html>
