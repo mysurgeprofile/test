@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的个人导航站</title>
+  <style>
+    /* ====== 全局变量 (可改主题色) ====== */
+    :root {
+      --bg-color: #0a0f1c;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --text-color: #e0e6ff;
+      --accent-color: #4f9dff;
+      --hover-color: #00eaff;
+      --radius: 16px;
+      --transition: 0.3s ease;
+      --shadow: 0 0 20px rgba(0, 238, 255, 0.2);
+    }
+
+    /* ====== 页面基础 ====== */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      color: var(--hover-color);
+      text-shadow: 0 0 10px rgba(0,238,255,0.6);
+    }
+
+    p.subtitle {
+      font-size: 1rem;
+      color: #aaa;
+      margin-bottom: 40px;
+    }
+
+    /* ====== 卡片网格 ====== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition);
+      cursor: pointer;
+      border: 1px solid rgba(79, 157, 255, 0.2);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 0 25px rgba(0,238,255,0.4);
+      border-color: var(--hover-color);
+    }
+
+    .card h3 {
+      margin: 10px 0;
+      font-size: 1.2rem;
+      color: var(--accent-color);
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    /* ====== 页脚 ====== */
+    footer {
+      margin-top: auto;
+      font-size: 0.8rem;
+      color: #666;
+      padding: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>🚀 我的个人导航站</h1>
+  <p class="subtitle">常用工具 & 网站 · 科技感导航</p>
+
+  <div class="grid">
+    <a class="card" href="https://github.com/" target="_blank">
+      <h3>GitHub</h3>
+      <p>代码托管 · 开发者必备</p>
+    </a>
+    <a class="card" href="https://chat.openai.com/" target="_blank">
+      <h3>ChatGPT</h3>
+      <p>AI 助手 · 灵感来源</p>
+    </a>
+    <a class="card" href="https://vercel.com/" target="_blank">
+      <h3>Vercel</h3>
+      <p>极速部署 · Serverless</p>
+    </a>
+    <a class="card" href="https://notion.so/" target="_blank">
+      <h3>Notion</h3>
+      <p>知识管理 · 笔记协作</p>
+    </a>
+    <a class="card" href="https://stackoverflow.com/" target="_blank">
+      <h3>Stack Overflow</h3>
+      <p>开发者问答社区</p>
+    </a>
+    <a class="card" href="https://www.reddit.com/" target="_blank">
+      <h3>Reddit</h3>
+      <p>全球社区 · 趋势热点</p>
+    </a>
+  </div>
+
+  <footer>
+    © 2025 我的导航站 | 保持专注，持续探索未来
+  </footer>
+</body>
+</html>
