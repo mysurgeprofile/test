@@ -1,0 +1,221 @@
+from DrissionPage import ChromiumPage
+from DrissionPage.errors import ElementNotFoundError
+import time
+import re
+import requests
+import json
+
+# --- 配置 ---
+# 请将 "YOUR_DEEPSEEK_API_KEY_HERE" 替换为你在 DeepSeek 平台获取的实际 API Key
+DEEPSEEK_API_KEY = "sk-61201d927a1d42a4910370d4cb286162"
+DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
+# 预设的系统提示，指导模型生成回复
+SYSTEM_PROMPT = (
+    "你是一个活跃于技术论坛 (linux.do) 的友善用户。"
+    "你的任务是根据给定的帖子内容，生成一条简洁、自然、符合论坛氛围的回复。"
+    "回复应遵循以下规则："
+    "1. 内容简洁明了，避免冗长废话。"
+    "2. 表达方式自然流畅，模拟真实的用户回复风格。"
+    "3. 可以是感谢、赞同、提问、补充信息或幽默评论，视情况而定。"
+    "4. 不要使用过于正式或机械的语言。"
+    "5. 不要编造帖子中没有提及的信息。"
+    "请仅输出回复内容，不要添加引号或额外解释。"
+)
+
+
+# --- 配置结束 ---
+
+def call_deepseek_api(content: str) -> str:
+    """
+    调用 DeepSeek API 生成回复
+    :param content: 帖子的主要内容
+    :return: 生成的回复文本
+    """
+    if not DEEPSEEK_API_KEY or DEEPSEEK_API_KEY == "YOUR_DEEPSEEK_API_KEY_HERE":
+        print("警告: 未配置 DeepSeek API Key，使用默认回复。")
+        return "感谢分享！"
+
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {DEEPSEEK_API_KEY}"
+    }
+
+    # 构建请求体
+    # 为了防止内容过长，可以截取前一部分内容
+    truncated_content = content[:1500]  # 限制输入长度
+
+    payload = {
+        "model": "deepseek-chat",  # 或 "deepseek-coder" 如果帖子主要是代码
+        "messages": [
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": f"请为以下帖子内容生成一条回复：\n\n{truncated_content}"}
+        ],
+        "stream": False
+    }
+
+    try:
+        response = requests.post(DEEPSEEK_API_URL, headers=headers, data=json.dumps(payload), timeout=30)
+        response.raise_for_status()  # 检查HTTP错误
+
+        result = response.json()
+        # 提取生成的回复
+        reply_text = result['choices'][0]['message']['content'].strip()
+        print(f"API 生成回复: {reply_text}")
+        return reply_text
+
+    except requests.exceptions.RequestException as e:
+        print(f"调用 DeepSeek API 时发生网络错误: {e}")
+    except KeyError as e:
+        print(f"解析 DeepSeek API 响应时出错，可能响应格式不正确: {e}")
+        print(f"API 响应内容: {response.text}")
+    except Exception as e:
+        print(f"调用 DeepSeek API 时发生未知错误: {e}")
+
+    print("使用默认回复。")
+    return "感谢分享，很有帮助！"  # 出错时的默认回复
+
+
+def run_task():
+    """
+    使用 DrissionPage 执行 linux.do 网站自动化任务
+    """
+    # 1. 启动浏览器并访问 https://linux.do
+    page = ChromiumPage()
+    try:
+        page.get('https://linux.do')
+        print("已访问 https://linux.do")
+
+        # 2. 在话题首页找到一个发布时间在1分钟前的帖子，然后打开它
+        main_outlet = page.ele('x://*[@id="main-outlet"]')
+        if not main_outlet:
+            print("未找到主内容区域 #main-outlet")
+            return
+
+        # 查找所有帖子项
+        post_items = main_outlet.eles('x://tr[contains(@class, "topic-list-item")]')
+
+        target_post_link = None
+        for item in post_items:
+            # 查找时间元素
+            time_element = item.ele('x://span[@class="relative-date"]')
+            if time_element:
+                time_text = time_element.text
+                # 检查是否为 "1分钟前"
+                if "1分钟前" in time_text or "1 minute ago" in time_text or re.search(r"1\s*(分钟|minute)", time_text):
+                    # 找到符合条件的帖子，获取其标题链接
+                    # 注意：根据你提供的HTML，类名是 'title raw-link raw-topic-link'
+                    title_link = item.ele('x:.//a[contains(@class, "title")]')
+                    if title_link:
+                        target_post_link = title_link.attr('href')
+                        print(f"找到目标帖子链接: {target_post_link}")
+                        break
+
+        if not target_post_link:
+            print("未找到1分钟前发布的帖子。")
+            return
+
+        # 拼接完整URL并跳转
+        full_post_url = target_post_link if target_post_link.startswith(
+            'http') else f"https://linux.do{target_post_link}"
+        page.get(full_post_url)
+        print(f"已打开帖子页面: {full_post_url}")
+
+        # 等待帖子内容加载
+        page.wait.load_start()  # 或 page.wait.ele_displayed('x://*[@id="post_1"]', timeout=10)
+        # 翻到帖子的最顶上，加载内容元素
+        try:
+            top_header = page.ele('x://*[@id]/div[2]/header/div/div/div[2]/div/div/h1/a/span/span')
+            top_header.click()
+        except ElementNotFoundError:
+            pass
+
+        # 3. 读取帖子的内容并生成预设回复信息
+        # 尝试更稳定的定位方式，或者等待元素出现
+        try:
+            page.wait.ele_displayed('x://*[@id="post_1"]/div[1]/div[2]/div[2]/div', timeout=10)
+            post_content_ele = page.ele('x://*[@id="post_1"]/div[1]/div[2]/div[2]/div')
+        except:
+            print("使用备用定位方式...")
+            post_content_ele = page.ele('x://*[@id="post_1"]/div[1]/div[2]/div[2]/div')
+
+        if not post_content_ele:
+            print("无法定位到帖子内容区域。")
+            hf = "感谢分享！"  # 默认回复
+        else:
+            post_content = post_content_ele.text
+            print(f"帖子内容预览: {post_content[:100]}...")
+
+            # --- 调用 DeepSeek API 生成回复 ---
+            hf = call_deepseek_api(post_content)
+            # --- 调用结束 ---
+            print(f"生成回复: {hf}")
+
+        # 4. 点击回复按钮
+        # 使用更具体和常见的定位方式
+        reply_button = page.ele('x://button[contains(@class, "reply-to-post")]')
+        if not reply_button:
+            # 如果上面找不到，尝试绝对路径（基于你提供的结构）
+            reply_button = page.ele('x://*[@id="post_1"]/div[3]/div/div[3]/button[contains(@class, "reply-to-post")]')
+
+        if reply_button:
+            reply_button.click()
+            print("已点击回复按钮")
+        else:
+            print("未找到回复按钮。")
+            return
+
+        # 5. 在回复输入框中填入回复信息
+        try:
+            # 等待回复框出现，使用更稳定的定位
+            page.wait.ele_displayed('x://div[@id="reply-control"]//textarea[contains(@class, "d-editor-input")]',timeout=10)
+            reply_textarea = page.ele('x://div[@id="reply-control"]//textarea[contains(@class, "d-editor-input")]')
+            if reply_textarea:
+                # 清空可能的默认内容（如果有的话）
+                reply_textarea.clear()
+                reply_textarea.input(hf)
+                print("已输入回复内容")
+            else:
+                print("未找到回复输入框。")
+                return
+        except ElementNotFoundError:
+            print("回复输入框未在指定时间内出现。")
+            return
+
+        # 6. 点击输入框下方的回复按钮
+        # //button[@title="或按 Ctrl Enter" and contains(@class, "btn-primary")]
+        submit_button = page.ele('x://button[@title="或按 Ctrl Enter" and contains(@class, "btn-primary")]')
+        # 如果精确匹配失败，尝试更宽松的匹配
+        if not submit_button:
+            submit_button = page.ele('x://div[@id="reply-control"]//button[contains(@class, "btn-primary")]')
+
+        if submit_button:
+            # 等待按钮可点击
+            page.wait.eles_loaded('x://button[@title="或按 Ctrl Enter" and contains(@class, "btn-primary")]', timeout=5)
+            submit_button.click()
+            print("已提交回复")
+        else:
+            print("未找到提交回复按钮。")
+
+        # 等待几秒确保操作完成
+        time.sleep(3)
+        print("回复操作完成。")
+
+    except Exception as e:
+        print(f"执行过程中发生错误: {e}")
+        import traceback
+        traceback.print_exc()  # 打印详细错误堆栈
+    finally:
+        # 7. 返回到首页
+        try:
+            page.get('https://linux.do')
+            print("已返回首页。")
+        except Exception as e:
+            print(f"返回首页失败: {e}")
+
+        # 8. 关闭浏览器
+        page.quit()
+        print("浏览器已关闭。")
+
+
+if __name__ == "__main__":
+    run_task()
