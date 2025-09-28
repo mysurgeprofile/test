@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人引导站</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 个人信息区域 -->
+        <div class="profile-section">
+            <div class="avatar">
+                <img src="https://via.placeholder.com/150x150/4CAF50/ffffff?text=头像" alt="个人头像" id="avatar-img">
+            </div>
+            <h1 class="name">您的姓名</h1>
+            <p class="title">您的职位/身份</p>
+            <p class="bio">这里是您的个人简介，可以简单介绍一下自己的背景、兴趣或专业领域。</p>
+        </div>
+
+        <!-- 快速链接区域 -->
+        <div class="links-section">
+            <h2>快速链接</h2>
+            <div class="links-grid">
+                <a href="#" class="link-card" data-category="社交">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="#" class="link-card" data-category="社交">
+                    <i class="fab fa-linkedin"></i>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="#" class="link-card" data-category="创作">
+                    <i class="fas fa-blog"></i>
+                    <span>个人博客</span>
+                </a>
+                <a href="#" class="link-card" data-category="创作">
+                    <i class="fab fa-youtube"></i>
+                    <span>YouTube</span>
+                </a>
+                <a href="#" class="link-card" data-category="工作">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>简历</span>
+                </a>
+                <a href="#" class="link-card" data-category="工作">
+                    <i class="fas fa-briefcase"></i>
+                    <span>作品集</span>
+                </a>
+                <a href="#" class="link-card" data-category="社交">
+                    <i class="fab fa-twitter"></i>
+                    <span>Twitter</span>
+                </a>
+                <a href="#" class="link-card" data-category="联系">
+                    <i class="fas fa-envelope"></i>
+                    <span>邮箱</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 技能展示区域 -->
+        <div class="skills-section">
+            <h2>技能与兴趣</h2>
+            <div class="skills-container">
+                <div class="skill-tag">前端开发</div>
+                <div class="skill-tag">后端开发</div>
+                <div class="skill-tag">UI/UX设计</div>
+                <div class="skill-tag">数据分析</div>
+                <div class="skill-tag">机器学习</div>
+                <div class="skill-tag">摄影</div>
+                <div class="skill-tag">音乐</div>
+                <div class="skill-tag">旅行</div>
+            </div>
+        </div>
+
+        <!-- 筛选按钮 -->
+        <div class="filter-section">
+            <h3>按类别筛选链接</h3>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">全部</button>
+                <button class="filter-btn" data-filter="社交">社交</button>
+                <button class="filter-btn" data-filter="创作">创作</button>
+                <button class="filter-btn" data-filter="工作">工作</button>
+                <button class="filter-btn" data-filter="联系">联系</button>
+            </div>
+        </div>
+
+        <!-- 联系方式 -->
+        <div class="contact-section">
+            <h2>联系我</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>your.email@example.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+86 123 4567 8900</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>中国，北京</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <footer>
+            <p>&copy; 2025 个人引导站. 使用 <i class="fas fa-heart" style="color: #e74c3c;"></i> 制作</p>
+        </footer>
+    </div>
+
+    <!-- 主题切换按钮 -->
+    <button class="theme-toggle" id="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>
