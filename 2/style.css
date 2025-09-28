@@ -1,0 +1,75 @@
+/* ChatGPT 官网暗色风格 */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", "Microsoft YaHei", sans-serif;
+  background-color: #111;
+  color: #e5e5e5;
+  line-height: 1.6;
+}
+
+/* 顶部 */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #1a1a1a;
+  border-bottom: 1px solid #2c2c2c;
+}
+
+.logo {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #10a37f; /* ChatGPT 绿 */
+}
+
+/* 主体 */
+.main {
+  padding: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+/* 卡片 */
+.card {
+  background: #1c1c1c;
+  border: 1px solid #2a2a2a;
+  border-radius: 0.75rem;
+  padding: 1.2rem;
+  text-decoration: none;
+  color: #e5e5e5;
+  transition: all 0.25s ease;
+}
+
+.card:hover {
+  background: #222;
+  border-color: #10a37f;
+  transform: translateY(-3px);
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #10a37f;
+  margin-bottom: 0.4rem;
+}
+
+/* 底部 */
+.footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #888;
+  border-top: 1px solid #2c2c2c;
+}
