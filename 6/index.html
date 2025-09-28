@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的个人引导站</title>
+  <style>
+    /* 全局样式 */
+    body {
+      margin: 0;
+      font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #f7f7f7 50%, #eaeaea 50%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 卡片容器 */
+    .card {
+      background: #fff;
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    /* 头像 */
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1rem;
+    }
+
+    /* 名字 */
+    .name {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 0.5rem 0;
+    }
+
+    /* 简介 */
+    .bio {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 2rem;
+    }
+
+    /* 按钮容器 */
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    /* 通用按钮 */
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    /* GitHub 蓝色按钮 */
+    .btn-github {
+      background: #0366d6;
+      color: #fff;
+    }
+    .btn-github:hover {
+      background: #024c9a;
+    }
+
+    /* 黑白极简按钮 */
+    .btn-outline {
+      border: 1px solid #333;
+      color: #333;
+      background: #fff;
+    }
+    .btn-outline:hover {
+      background: #333;
+      color: #fff;
+    }
+
+    /* 响应式优化 */
+    @media (max-width: 500px) {
+      .card {
+        padding: 2rem;
+      }
+      .name {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="https://via.placeholder.com/100" alt="头像" class="avatar">
+    <h1 class="name">你的名字</h1>
+    <p class="bio">一句简短的自我介绍 · 极简导航站</p>
+    <div class="links">
+      <a href="https://github.com/" class="btn btn-github" target="_blank">GitHub</a>
+      <a href="#" class="btn btn-outline" target="_blank">个人博客</a>
+      <a href="#" class="btn btn-outline" target="_blank">作品集</a>
+      <a href="#" class="btn btn-outline" target="_blank">联系我</a>
+    </div>
+  </div>
+</body>
+</html>
